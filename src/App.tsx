@@ -201,7 +201,7 @@ export default function HeartCard() {
   );
 }
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
   body: {
     margin: 0,
     padding: 0,
@@ -215,36 +215,36 @@ const styles = {
   card: {
     background: "white",
     padding: "50px 30px",
-    borderRadius: "24px",
+    borderRadius: 24, // можно писать числом
     textAlign: "center",
     boxShadow: "0 20px 60px rgba(0, 0, 0, 0.12)",
     width: "90%",
-    maxWidth: "420px",
+    maxWidth: 420,
     boxSizing: "border-box",
   },
   heart: {
-    fontSize: "64px",
-    marginBottom: "15px",
+    fontSize: 64,
+    marginBottom: 15,
     transition: "transform 0.4s ease",
   },
   gif: {
-    width: "150px",
-    height: "150px",
+    width: 150,
+    height: 150,
     margin: "0 auto 20px",
-    borderRadius: "12px",
-    objectFit: "cover",
+    borderRadius: 12,
+    objectFit: "cover" as const, // 👈 фикс для TypeScript
   },
   message: {
-    fontSize: "22px",
+    fontSize: 22,
     color: "#444",
-    marginBottom: "20px",
-    minHeight: "80px",
+    marginBottom: 20,
+    minHeight: 80,
     lineHeight: 1.5,
     transition: "opacity 0.5s ease",
   },
   counter: {
-    marginBottom: "15px",
-    fontSize: "16px",
+    marginBottom: 15,
+    fontSize: 16,
     color: "#666",
   },
   button: {
@@ -252,11 +252,11 @@ const styles = {
     color: "white",
     border: "none",
     padding: "18px 36px",
-    borderRadius: "999px",
-    fontSize: "20px",
+    borderRadius: 999,
+    fontSize: 20,
     cursor: "pointer",
     transition: "background 0.25s, transform 0.25s",
     width: "100%",
-    maxWidth: "300px",
+    maxWidth: 300,
   },
 };
