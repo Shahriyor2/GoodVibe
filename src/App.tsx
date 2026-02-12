@@ -103,7 +103,6 @@ import second from "./assets/2.gif";
 import third from "./assets/3.gif";
 import chetvortiy from "./assets/4.gif";
 import patiy from "./assets/5.gif";
-//
 import шестой from "./assets/6.gif";
 import седьмой from "./assets/7.gif";
 import восмой from "./assets/8.gif";
@@ -142,26 +141,33 @@ const gifs = [
 ];
 
 export default function HeartCard() {
-  const [message, setMessage] = useState("Если тебе грустно — ты не одна.");
+  const [messageIndex, setMessageIndex] = useState(0); // индекс текущего сообщения
+  const [gifIndex, setGifIndex] = useState(0); // индекс GIF
   const [heart, setHeart] = useState("🤍");
   const [heartStyle, setHeartStyle] = useState({});
   const [messageOpacity, setMessageOpacity] = useState(1);
-  const [gifIndex, setGifIndex] = useState(0);
+  const [clickCount, setClickCount] = useState(0);
 
   const showMessage = () => {
-    const randomMessageIndex = Math.floor(Math.random() * messages.length);
-    const nextGifIndex = (gifIndex + 1) % gifs.length;
-
     setMessageOpacity(0);
 
     setTimeout(() => {
-      setMessage(messages[randomMessageIndex]);
-      setMessageOpacity(1);
+      // Новый индекс сообщения по циклу
+      const nextMessageIndex = (messageIndex + 1) % messages.length;
+      setMessageIndex(nextMessageIndex);
 
+      // Новый индекс GIF по циклу
+      const nextGifIndex = (gifIndex + 1) % gifs.length;
+      setGifIndex(nextGifIndex);
+
+      // Анимация сердца
       setHeart("❤️");
       setHeartStyle({ transform: "scale(1.4) rotate(10deg)" });
 
-      setGifIndex(nextGifIndex);
+      // Увеличиваем счётчик циклически до длины массива
+      setClickCount((prev) => (prev + 1) % messages.length);
+
+      setMessageOpacity(1);
 
       setTimeout(() => {
         setHeart("🤍");
@@ -176,15 +182,17 @@ export default function HeartCard() {
         <div style={{ ...styles.heart, ...heartStyle }}>{heart}</div>
 
         {/* GIF перед сообщением */}
-        <img
-          src={gifs[gifIndex]}
-          alt="тут должны были быть милые гифки, но код решил не вставлять их"
-          style={styles.gif}
-        />
+        <img src={gifs[gifIndex]} alt="милые гифки" style={styles.gif} />
 
         <div style={{ ...styles.message, opacity: messageOpacity }}>
-          {message}
+          {messages[messageIndex]}
         </div>
+
+        {/* Отображаем счётчик */}
+        <div style={styles.counter}>
+          Нажатий: {clickCount + 1} из {messages.length}
+        </div>
+
         <button style={styles.button} onClick={showMessage}>
           Нажми 💫
         </button>
@@ -229,10 +237,15 @@ const styles = {
   message: {
     fontSize: "22px",
     color: "#444",
-    marginBottom: "30px",
+    marginBottom: "20px",
     minHeight: "80px",
     lineHeight: 1.5,
     transition: "opacity 0.5s ease",
+  },
+  counter: {
+    marginBottom: "15px",
+    fontSize: "16px",
+    color: "#666",
   },
   button: {
     background: "#ff6b81",
